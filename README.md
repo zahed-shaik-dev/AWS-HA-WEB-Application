@@ -8,9 +8,11 @@ The infrastructure was configured through the AWS Management Console, with a foc
 
 ## Architecture
 
-![AWS High-Availability Web Application Architecture](screenshots/Architecture.png)
 
-For the detailed architecture diagram and component relationships, see [Architecture Documentation](docs/architecture.md).
+![AWS High-Availability Web Application Architecture](./screenshots/Architecture.png)
+
+For the detailed architecture documentation, see [Architecture Documentation](./docs/architecture.md).
+
 
 ### Architecture Components
 
