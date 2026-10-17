@@ -9,7 +9,12 @@ The infrastructure was configured through the AWS Management Console, with a foc
 ## Architecture
 
 
-![AWS High-Availability Web Application Architecture](https://github.com/zahed-shaik-dev/AWS-HA-WEB-Application/raw/main/screenshots/Architecture.png)
+## Architecture
+
+![Professional AWS High-Availability Web Application Architecture](screenshots/AWS-HA-Architecture.png)
+
+See [Architecture Documentation](docs/architecture.md) for implementation details.
+
 
 For the detailed architecture documentation, see [Architecture Documentation](docs/architecture.md).
 
