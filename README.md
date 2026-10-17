@@ -1,114 +1,71 @@
-\# AWS High-Availability Web Application Deployment
+# AWS High-Availability Web Application Deployment
 
+## Overview
 
+This project demonstrates the design and configuration of a highly available web application infrastructure on AWS. The architecture uses an Application Load Balancer, Amazon EC2, and an Auto Scaling Group distributed across two Availability Zones.
 
-\## Overview
-
-
-
-This project demonstrates how to build a highly available web application infrastructure on AWS using a load balancer, EC2 instances, and Auto Scaling across two Availability Zones.
-
-
-
-The infrastructure was configured through the AWS Management Console, with a focus on networking, access control, automated instance setup, and health-check troubleshooting.
-
-
-
-\## Architecture
-
-
-
-\- \*\*VPC:\*\* Custom network with CIDR `10.0.0.0/16`
-
-\- \*\*Public subnets:\*\* Two subnets across Availability Zones
-
-\- \*\*Private subnets:\*\* Two subnets for application instances
-
-\- \*\*Internet Gateway:\*\* Provides internet connectivity for public resources
-
-\- \*\*NAT Gateway:\*\* Allows outbound internet access from private subnets
-
-\- \*\*Application Load Balancer:\*\* Distributes incoming HTTP traffic
-
-\- \*\*EC2 Launch Template:\*\* Uses Amazon Linux 2023 and user data to install Nginx
-
-\- \*\*Auto Scaling Group:\*\* Configured with a desired capacity of two instances
-
-\- \*\*Target Group:\*\* Configured with HTTP health checks
-
-\- \*\*IAM and Security Groups:\*\* Control instance permissions and network access
-
-
+The infrastructure was configured through the AWS Management Console, with a focus on network architecture, access control, automated instance configuration, and application health-check troubleshooting.
 
 ## Architecture
 
-See the [AWS architecture diagram](docs/architecture.md) for the VPC,
-public and private subnets, load balancer, Auto Scaling Group,
-EC2 instances, and NAT Gateway.
+![AWS High-Availability Web Application Architecture](screenshots/aws-architecture.png)
 
-\## AWS Services Used
+For the detailed architecture diagram and component relationships, see [Architecture Documentation](docs/architecture.md).
 
+### Architecture Components
 
+- **Amazon VPC:** Custom network using CIDR `10.0.0.0/16`.
+- **Public Subnets:** Host public-facing infrastructure across two Availability Zones.
+- **Private Subnets:** Intended to host application instances without direct public access.
+- **Internet Gateway:** Provides internet connectivity for public resources.
+- **NAT Gateway:** Enables outbound internet access from appropriately routed private subnets.
+- **Application Load Balancer:** Distributes incoming HTTP traffic to registered targets.
+- **EC2 Launch Template:** Defines instance configuration using Amazon Linux 2023 and user data for Nginx installation.
+- **Auto Scaling Group:** Configured with a desired capacity of two instances.
+- **Target Group:** Uses HTTP health checks to monitor registered targets.
+- **IAM and Security Groups:** Control AWS permissions and network traffic.
 
-Amazon VPC, EC2, Application Load Balancer, Auto Scaling, IAM, Internet Gateway, NAT Gateway, and Security Groups.
+## AWS Services Used
 
+Amazon VPC, Amazon EC2, Application Load Balancer, Auto Scaling, IAM, Internet Gateway, NAT Gateway, and Security Groups.
 
+## Implementation Steps
 
-\## Implementation Steps
+1. Created a VPC with public and private subnets across two Availability Zones.
+2. Configured route tables and internet connectivity.
+3. Created security groups for the load balancer and EC2 instances.
+4. Created an EC2 launch template with user data to install Nginx.
+5. Configured an Application Load Balancer and target group.
+6. Created an Auto Scaling Group across private subnets.
+7. Investigated target health-check timeouts during validation.
 
+## Screenshots
 
+Add screenshots of your actual AWS environment here as they become available.
 
-1\. Created a VPC with public and private subnets across two Availability Zones.
+Recommended evidence includes:
+- VPC and subnet configuration
+- Application Load Balancer listeners and target health
+- EC2 instances across Availability Zones
+- Auto Scaling Group configuration
+- Successful application response through the load balancer
 
-2\. Configured route tables and internet connectivity.
-
-3\. Created security groups for the load balancer and EC2 instances.
-
-4\. Created an EC2 launch template with user data for Nginx installation.
-
-5\. Configured an Application Load Balancer and target group.
-
-6\. Created an Auto Scaling Group across private subnets.
-
-7\. Investigated target health-check timeouts during validation.
-
-
-
-\## Screenshots
-
-
-
-AWS Console screenshots will be added here as the project documentation is completed.
-
-
-
-\## Troubleshooting
-
-
+## Troubleshooting
 
 During the last recorded validation, the target group reported unhealthy targets due to health-check timeouts. Further investigation is required to confirm successful application connectivity through the load balancer.
 
+## Key Learnings
 
+- AWS VPC and subnet design
+- Public and private routing
+- Load balancing and Auto Scaling
+- EC2 user-data automation
+- IAM roles and security-group configuration
+- Application health checks and troubleshooting
 
-\## Key Learnings
+## Security and Cost Considerations
 
-
-
-\- AWS VPC and subnet design
-
-\- Public and private routing
-
-\- Load balancing and Auto Scaling concepts
-
-\- EC2 user-data automation
-
-\- IAM roles and security-group configuration
-
-\- Application health
-
-
-## Architecture
-
-The following diagram illustrates the AWS high-availability web application deployment across two Availability Zones.
-
-For the full architecture documentation, see [docs/architecture.md](docs/architecture.md).
+- Restrict inbound traffic using security groups and least-privilege access.
+- Do not commit AWS credentials, private keys, or sensitive Terraform state.
+- Review active AWS resources and delete unused resources to avoid unnecessary charges.
+- Verify target health and end-to-end application connectivity before describing the deployment as fully operational.
