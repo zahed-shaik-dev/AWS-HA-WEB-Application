@@ -40,6 +40,12 @@ The infrastructure was configured through the AWS Management Console, with a foc
 
 
 
+## Architecture
+
+See the [AWS architecture diagram](docs/architecture.md) for the VPC,
+public and private subnets, load balancer, Auto Scaling Group,
+EC2 instances, and NAT Gateway.
+
 \## AWS Services Used
 
 
