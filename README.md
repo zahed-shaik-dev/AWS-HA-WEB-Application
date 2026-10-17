@@ -106,3 +106,9 @@ During the last recorded validation, the target group reported unhealthy targets
 
 \- Application health
 
+
+## Architecture
+
+The following diagram illustrates the AWS high-availability web application deployment across two Availability Zones.
+
+For the full architecture documentation, see [docs/architecture.md](docs/architecture.md).

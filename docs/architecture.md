@@ -98,3 +98,94 @@ flowchart TB
     class PVA,PVB private
     class EC2A,EC2B,ASG,LT compute
 ```
+
+# AWS High-Availability Web Application Architecture
+
+## Overview
+
+This project deploys a highly available web application on AWS in the Mumbai region (`ap-south-1`). An Application Load Balancer distributes incoming HTTP traffic across private EC2 instances deployed in two Availability Zones. An Auto Scaling Group maintains application capacity, while a NAT Gateway provides outbound internet connectivity to private instances.
+
+## Architecture Diagram
+
+```mermaid
+flowchart TB
+    U(["Internet Users"])
+
+    subgraph AWS["AWS Cloud — ap-south-1 Mumbai"]
+        IGW["Internet Gateway"]
+
+        subgraph VPC["VPC: ha-webapp-vpc · 10.0.0.0/16"]
+            ALB["Application Load Balancer<br/>ha-webapp-alb · HTTP :80"]
+            TG["Target Group<br/>ha-webapp-tg"]
+
+            subgraph AZA["Availability Zone A"]
+                PA["Public Subnet"]
+                PVA["Private Subnet"]
+                ECA["EC2 Instance<br/>Nginx Web Server"]
+                PA --- PVA
+                PVA --- ECA
+            end
+
+            subgraph AZB["Availability Zone B"]
+                PB["Public Subnet"]
+                PVB["Private Subnet"]
+                ECB["EC2 Instance<br/>Nginx Web Server"]
+                PB --- PVB
+                PVB --- ECB
+            end
+
+            ASG["Auto Scaling Group<br/>ha-webapp-asg<br/>Min: 2 · Desired: 2 · Max: 4"]
+            LT["Launch Template<br/>Amazon Linux 2023"]
+
+            NAT["NAT Gateway<br/>Outbound Internet Access"]
+        end
+    end
+
+    U --> IGW
+    IGW --> ALB
+    ALB --> TG
+    TG --> ECA
+    TG --> ECB
+    ASG -. "manages capacity" .-> ECA
+    ASG -. "manages capacity" .-> ECB
+    LT -. "launch configuration" .-> ASG
+    PA --- ALB
+    PB --- ALB
+    ECA -. "outbound traffic" .-> NAT
+    ECB -. "outbound traffic" .-> NAT
+    NAT --> IGW
+
+    classDef public fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef private fill:#dcfce7,stroke:#16a34a,color:#14532d
+    classDef service fill:#fef3c7,stroke:#d97706,color:#78350f
+
+    class PA,PB public
+    class PVA,PVB,ECA,ECB private
+    class ALB,TG,ASG,LT,NAT,IGW service
+```
+
+## AWS Services Used
+
+- Amazon VPC and subnets
+- Internet Gateway and NAT Gateway
+- Application Load Balancer and Target Group
+- Amazon EC2 and Launch Template
+- Auto Scaling Group
+- Security Groups and IAM roles
+
+## Traffic Flow
+
+1. Users send HTTP requests to the public Application Load Balancer.
+2. The load balancer forwards requests to healthy registered EC2 targets in private subnets.
+3. The Auto Scaling Group manages EC2 capacity across the Availability Zones.
+4. Private instances use the NAT Gateway for outbound internet access when required.
+
+## Availability and Security
+
+- Application instances are distributed across two Availability Zones.
+- The load balancer provides a single public entry point.
+- Private EC2 instances are not intended to receive direct public internet traffic.
+- Security Groups restrict access between the load balancer and application instances.
+- The Auto Scaling Group can replace unhealthy instances and adjust capacity.
+
+> Note: This diagram represents the intended architecture. Confirm the deployed subnet associations, NAT routing, target health, and security group rules against your AWS environment.
