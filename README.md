@@ -77,3 +77,33 @@ During the last recorded validation, the target group reported unhealthy targets
 - Do not commit AWS credentials, private keys, or sensitive Terraform state.
 - Review active AWS resources and delete unused resources to avoid unnecessary charges.
 - Verify target health and end-to-end application connectivity before describing the deployment as fully operational.
+
+## Project Status
+
+**Status:** Infrastructure deployment completed as a hands-on learning exercise; AWS resources have since been deleted.
+
+This project demonstrates the design of a highly available web application architecture on AWS, including networking, load balancing, compute scaling, and security fundamentals.
+
+### Validation Status
+
+- [ ] Project documentation added
+- [ ] AWS architecture diagram included
+- [ ] Security documentation added
+- [ ] Testing and validation plan documented
+- [ ] GitHub Actions workflow added for Markdown validation
+- [ ] Live application health checks
+- [ ] Load balancer and target health verification
+- [ ] Auto Scaling behavior verification
+- [ ] Monitoring and alert validation
+
+*Live infrastructure checks are not currently performed because the AWS resources have been deleted.*
+
+### Documentation
+
+- [Architecture](docs/architecture.md)
+- [Security](docs/security.md)
+- [Testing and Validation](docs/testing-and-validation.md)
+
+### Continuous Integration
+
+A GitHub Actions workflow checks Markdown files on pushes and pull requests targeting the `main` branch.
